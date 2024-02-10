@@ -1,0 +1,14 @@
+{
+  "name": "echo-dome-server",
+  "version": "1.0.0",
+  "description": "Echo Dome Server for api routes and data processing.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon"
+  },
+  "keywords": [],
+  "author": "Shivam Oraon",
+  "license": "ISC"
+}
