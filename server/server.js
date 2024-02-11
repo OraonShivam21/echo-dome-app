@@ -1,5 +1,10 @@
 const express = require("express");
+const path = require("path");
 const connection = require("./connection");
+const userRoutes = require("./routes/user.routes");
+const chatRoutes = require("./routes/chat.routes");
+const messageRoutes = require("./routes/message.routes");
+const { notFound, errorHandler } = require("./middlewares/error.middlewares");
 require("dotenv").config();
 
 const app = express();
@@ -7,9 +12,27 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/api", (req, res) => {
-  res.status(200).json({ message: "Welcome to Echo Dome server api routes" });
-});
+app.use("/api/users", userRoutes);
+app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messageRoutes);
+
+// deployment
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/api", (req, res) => {
+    res.status(200).json({ message: "Welcome to Echo Dome server api routes" });
+  });
+}
+
+// error handling middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 const server = app.listen(port, async () => {
   try {
