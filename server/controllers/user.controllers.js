@@ -19,7 +19,7 @@ const allUsers = asyncHandler(async (req, res) => {
 
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-    req.status(200).json({ users });
+    res.status(200).json({ users });
   } catch (error) {
     res.status(400).json({ error: error || "something went wrong" });
   }
