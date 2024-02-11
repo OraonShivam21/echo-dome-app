@@ -13,7 +13,7 @@ const auth = asyncHandler(async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
-      if (decoded) throw "";
+      if (!decoded) throw "";
 
       req.user = await User.findById(decoded.id).select("-password");
       next();
